@@ -224,7 +224,6 @@ class TestProductModel(unittest.TestCase):
         logger.info(product)
         self.assertIsNotNone(product.id)
         product.description = "This is a test"
-        original_id = product.id
         product.id = None
         self.assertRaises(DataValidationError, product.update)
 
@@ -255,7 +254,7 @@ class TestProductModel(unittest.TestCase):
             "name": "Test Product",
             "description": "A test product",
             "price": "10.99",
-            "available": True,  
+            "available": True,
             "category": "INVALID_CATEGORY"
         }
         with self.assertRaises(DataValidationError) as context:
@@ -265,7 +264,7 @@ class TestProductModel(unittest.TestCase):
     def test_deserialize_invalid_data_type(self):
         """It should show invalid data raises DataValidation error"""
         product = ProductFactory()
-        data = 'Test'        
+        data = 'Test'
         with self.assertRaises(DataValidationError) as context:
             product.deserialize(data)
         self.assertIn("Invalid product: body of request contained bad or no data", str(context.exception))
